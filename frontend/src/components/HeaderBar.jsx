@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Search, Globe, Calendar, Bell, Wifi, WifiOff, X, Check, CloudRain, Award, Shield, CheckCircle2, ChevronDown, RotateCcw } from 'lucide-react';
+import { Search, Globe, Calendar, Bell, Wifi, WifiOff, X, Check, CloudRain, Award, Shield, CheckCircle2, ChevronDown, RotateCcw, Zap } from 'lucide-react';
 
 const PRESET_SEASONS = [
   { id: 'kharif-2026', label: 'Kharif 2026', start: '2026-06-01', end: '2026-09-30', tag: 'Jun 01 – Sep 30, 2026' },
@@ -8,7 +8,7 @@ const PRESET_SEASONS = [
   { id: 'year-2026', label: 'Full Year 2026', start: '2026-01-01', end: '2026-12-31', tag: 'Jan 01 – Dec 31' }
 ];
 
-export default function HeaderBar({ lang, setLang, userSession, isOnline, toggleOnline, dateRange, setDateRange }) {
+export default function HeaderBar({ lang, setLang, userSession, isOnline, toggleOnline, dateRange, setDateRange, onOpenDeltaSyncModal }) {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(3);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
@@ -136,9 +136,19 @@ export default function HeaderBar({ lang, setLang, userSession, isOnline, toggle
         </div>
       </div>
 
-      {/* Right Tools: Welcome, Date, Language, Notifications, Offline Toggle, Avatar */}
+      {/* Right Tools: Welcome, Date, Language, Delta Sync, Notifications, Offline Toggle, Avatar */}
       <div className="flex items-center space-x-3 text-xs">
         
+        {/* Delta Sync Protocol Inspector Button */}
+        <button
+          onClick={onOpenDeltaSyncModal}
+          className="px-3 py-1.5 rounded-xl font-bold flex items-center gap-1.5 transition-all shadow border cursor-pointer bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border-emerald-500/40 hover:border-emerald-400"
+          title="Click to Open Delta Sync & 1 Crore Offline Inspector"
+        >
+          <Zap className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
+          <span>⚡ Delta Sync</span>
+        </button>
+
         {/* Offline Mode Toggle Button */}
         <button
           onClick={toggleOnline}
@@ -152,6 +162,7 @@ export default function HeaderBar({ lang, setLang, userSession, isOnline, toggle
           {isOnline ? <Wifi className="w-3.5 h-3.5 text-emerald-400" /> : <WifiOff className="w-3.5 h-3.5 text-amber-400" />}
           <span>{isOnline ? '🟢 Online' : '📴 Offline Mode'}</span>
         </button>
+
 
         {/* Interactive Date Range Picker Button with Dropdown Popover */}
         <div className="relative" ref={datePickerRef}>

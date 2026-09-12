@@ -4,6 +4,7 @@ import SidebarNav from './components/SidebarNav';
 import HeaderBar from './components/HeaderBar';
 import OfflineBanner from './components/OfflineBanner';
 import AIAssistantDrawer from './components/AIAssistantDrawer';
+import DeltaSyncModal from './components/DeltaSyncModal';
 import LandingPage from './pages/LandingPage';
 import Login from './pages/Login';
 import AgriMainDashboard from './pages/AgriMainDashboard';
@@ -24,11 +25,13 @@ export default function App() {
   const [isSyncing, setIsSyncing] = useState(false);
   const [syncSuccess, setSyncSuccess] = useState(false);
   const [isAIChatOpen, setIsAIChatOpen] = useState(false);
+  const [isDeltaSyncOpen, setIsDeltaSyncOpen] = useState(false);
   const [dateRange, setDateRange] = useState({
     startDate: '2026-06-01',
     endDate: '2026-09-30',
     label: 'Jun 01 – Sep 30, 2026'
   });
+
 
   useEffect(() => {
     const handleOnline = () => {
@@ -122,6 +125,7 @@ export default function App() {
             toggleOnline={toggleOnline}
             dateRange={dateRange}
             setDateRange={setDateRange}
+            onOpenDeltaSyncModal={() => setIsDeltaSyncOpen(true)}
           />
 
           {/* Offline Mode Alert Banner */}
@@ -207,6 +211,15 @@ export default function App() {
             onClose={() => setIsAIChatOpen(false)}
             lang={lang}
           />
+
+          {/* Delta Sync Protocol Modal */}
+          <DeltaSyncModal
+            isOpen={isDeltaSyncOpen}
+            onClose={() => setIsDeltaSyncOpen(false)}
+            isOnline={isOnline}
+            userId={userSession.user_id}
+          />
+
 
           {/* Footer */}
           <footer className="border-t border-emerald-900/60 bg-black/90 backdrop-blur-md py-3 px-6 text-center text-xs text-gray-400">
